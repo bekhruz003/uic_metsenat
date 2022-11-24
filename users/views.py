@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import *
 from rest_framework import generics
 from .serializers import *
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import filters
 
 
@@ -44,3 +44,13 @@ class StudentProfileView(generics.RetrieveUpdateDestroyAPIView):
     queryset = StudentModel.objects.all()
     serializer_class = StudentModelSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class PaidBudgetView(generics.ListCreateAPIView):
+    queryset = StudentSponsor.objects.all()
+    serializer_class = StudentSponsorSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class MainDatesView(generics.ListAPIView):
+    queryset = MainDatas.objects.aggregate().count()

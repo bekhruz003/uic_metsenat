@@ -98,7 +98,7 @@ class StudentModel(BaseModel):
 
 class StudentSponsor(models.Model):
     student = models.ForeignKey(StudentModel, related_name='student', verbose_name='student',
-                                on_delete=models.CASCADE, null=True, blank=True)
+                                on_delete=models.CASCADE)
     sponsor = models.ForeignKey(SponsorModel, related_name='sponsor', verbose_name='sponsor',
                                 on_delete=models.CASCADE)
     money = models.PositiveIntegerField(verbose_name='olingan pul miqdori')

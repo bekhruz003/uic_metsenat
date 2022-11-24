@@ -34,7 +34,8 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
 class StudentSponsorSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentSponsor
-        fields = '__all__'
+        fields = ['student', 'sponsor', 'money']
+        # read_only_fields = ['student', 'sponsor', 'money']
 
 
 # class LinearGraphSerializer(serializers.ModelSerializer):
