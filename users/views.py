@@ -24,3 +24,23 @@ class SponsorProfileView(generics.RetrieveUpdateDestroyAPIView):
     queryset = SponsorModel.objects.all()
     serializer_class = SponsorProfileSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class StudentRegisterView(generics.CreateAPIView):
+    queryset = StudentModel.objects.all()
+    serializer_class = StudentRegisterSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class StudentListView(generics.ListAPIView):
+    queryset = StudentModel.objects.all()
+    serializer_class = StudentModelSerializer
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('full_name',)
+
+
+class StudentProfileView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StudentModel.objects.all()
+    serializer_class = StudentModelSerializer
+    permission_classes = (IsAuthenticated,)
