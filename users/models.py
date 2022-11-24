@@ -136,32 +136,32 @@ class MainDatas(models.Model):
         verbose_name = 'Asosiy Malumotlar'
         verbose_name_plural = 'Asosiy Malumotlar'
 
-    @receiver(pre_save, sender=StudentSponsor)
-    def check_budget(sender, instance, **kwargs):
-        student = StudentModel.objects.get(id=instance.student.id)
-        sponsor = SponsorModel.objects.get(id=instance.sponsor.id)
-        student_reminder = student.request_money - student.paid_money
-
-        if (sponsor.budget >= instance.money and
-                student.request_money > student.paid_money and
-                student_reminder >= instance.money):
-
-            sponsor.budget -= instance.money
-            sponsor.paid_money += instance.money
-            student.paid_money += instance.money
-            student.save()
-            sponsor.save()
-        else:
-            raise ValidationError(f"{instance.money} summani Qosha olmaysiz")
-
-    @receiver(pre_delete, sender=StudentSponsor)
-    def delete_budget(sender, instance, **kwargs):
-        student = StudentModel.objects.get(id=instance.student.id)
-        sponsor = SponsorModel.objects.get(id=instance.sponsor.id)
-
-        student.paid_money -= instance.money
-        sponsor.paid_money -= instance.money
-        sponsor.budget += instance.money
-
-        sponsor.save()
-        student.save()
+    # @receiver(pre_save, sender=StudentSponsor)
+    # def check_budget(sender, instance, **kwargs):
+    #     student = StudentModel.objects.get(id=instance.student.id)
+    #     sponsor = SponsorModel.objects.get(id=instance.sponsor.id)
+    #     student_reminder = student.request_money - student.paid_money
+    #
+    #     if (sponsor.budget >= instance.money and
+    #             student.request_money > student.paid_money and
+    #             student_reminder >= instance.money):
+    #
+    #         sponsor.budget -= instance.money
+    #         sponsor.paid_money += instance.money
+    #         student.paid_money += instance.money
+    #         student.save()
+    #         sponsor.save()
+    #     else:
+    #         raise ValidationError(f"{instance.money} summani Qosha olmaysiz")
+    #
+    # @receiver(pre_delete, sender=StudentSponsor)
+    # def delete_budget(sender, instance, **kwargs):
+    #     student = StudentModel.objects.get(id=instance.student.id)
+    #     sponsor = SponsorModel.objects.get(id=instance.sponsor.id)
+    #
+    #     student.paid_money -= instance.money
+    #     sponsor.paid_money -= instance.money
+    #     sponsor.budget += instance.money
+    #
+    #     sponsor.save()
+    #     student.save()
