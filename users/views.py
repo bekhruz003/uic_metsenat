@@ -4,6 +4,7 @@ from rest_framework import generics
 from .serializers import *
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import filters
+from django.core.exceptions import ValidationError
 
 
 class SponsorApplicationView(generics.CreateAPIView):
@@ -53,10 +54,20 @@ class PaidBudgetView(generics.ListCreateAPIView):
 
     def check_budget(self):
         if StudentSponsor.student.paid_money >= StudentSponsor.sponsor.budget:
-            return ValidationError('bu summani qosha olmaysiz')
+            raise ValidationError('bu summani qosha olmaysiz')
         return StudentSponsor.student.save()
 
-    # @receiver(pre_save, sender=StudentSponsor)
+    class MainDatasView(generics.ListAPIView):
+        serializer_class = MainDatasSerializer
+        permission_classes = (IsAdminUser,)
+
+        def main_datas(self):
+            qs = MainDatas.objects.all()
+            for date in qs:
+                statistic = date.objects.filter().count()
+            return statistic
+
+            # @receiver(pre_save, sender=StudentSponsor)
     # def check_budget(self, sender, instance, **kwargs):
     #     student = StudentModel.objects.get(id=instance.student.id)
     #     sponsor = SponsorModel.objects.get(id=instance.sponsor.id)

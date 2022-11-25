@@ -137,7 +137,7 @@ class MainDatas(models.Model):
         verbose_name_plural = 'Asosiy Malumotlar'
 
     # @receiver(pre_save, sender=StudentSponsor)
-    # def check_budget(sender, instance, **kwargs):
+    # def check_budget(self, sender, instance, **kwargs):
     #     student = StudentModel.objects.get(id=instance.student.id)
     #     sponsor = SponsorModel.objects.get(id=instance.sponsor.id)
     #     student_reminder = student.request_money - student.paid_money
@@ -155,7 +155,7 @@ class MainDatas(models.Model):
     #         raise ValidationError(f"{instance.money} summani Qosha olmaysiz")
     #
     # @receiver(pre_delete, sender=StudentSponsor)
-    # def delete_budget(sender, instance, **kwargs):
+    # def delete_budget(self, sender, instance, **kwargs):
     #     student = StudentModel.objects.get(id=instance.student.id)
     #     sponsor = SponsorModel.objects.get(id=instance.sponsor.id)
     #
