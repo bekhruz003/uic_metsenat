@@ -2,9 +2,6 @@ from rest_framework import serializers
 from .models import SponsorModel, StudentModel, StudentSponsor, MainDatas
 
 
-# from .tasks import money_management, money_given, money_is_needed
-
-
 class SponsorApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = SponsorModel
@@ -42,7 +39,7 @@ class StudentSponsorSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = LinearGraph
 #         fields = '__all__'
-        # read_only_fields = ['number_sp', 'number_st', 'day']
+# read_only_fields = ['number_sp', 'number_st', 'day']
 
 
 class MainDatasSerializer(serializers.ModelSerializer):
