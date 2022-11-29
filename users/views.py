@@ -1,4 +1,9 @@
+from datetime import datetime
+
 from django.shortcuts import render
+from django.db.models import Count
+from rest_framework.response import Response
+
 from .models import *
 from rest_framework import generics
 from .serializers import *
@@ -52,47 +57,14 @@ class PaidBudgetView(generics.ListCreateAPIView):
     serializer_class = StudentSponsorSerializer
     permission_classes = (IsAdminUser,)
 
-    def check_budget(self):
-        if StudentSponsor.student.paid_money >= StudentSponsor.sponsor.budget:
-            raise ValidationError('bu summani qosha olmaysiz')
-        return StudentSponsor.student.save()
 
-    class MainDatasView(generics.ListAPIView):
-        serializer_class = MainDatasSerializer
-        permission_classes = (IsAdminUser,)
+class MainDatasView(generics.ListAPIView):
+    queryset = MainDatas.objects.all()
+    serializer_class = MainDatasSerializer
+    permission_classes = (IsAdminUser,)
 
-        def main_datas(self):
-            qs = MainDatas.objects.all()
-            for date in qs:
-                statistic = date.objects.filter().count()
-            return statistic
-
-            # @receiver(pre_save, sender=StudentSponsor)
-    # def check_budget(self, sender, instance, **kwargs):
-    #     student = StudentModel.objects.get(id=instance.student.id)
-    #     sponsor = SponsorModel.objects.get(id=instance.sponsor.id)
-    #     student_reminder = student.request_money - student.paid_money
-    #
-    #     if (sponsor.budget >= instance.money and
-    #             student.request_money > student.paid_money and
-    #             student_reminder >= instance.money):
-    #
-    #         sponsor.budget -= instance.money
-    #         sponsor.paid_money += instance.money
-    #         student.paid_money += instance.money
-    #         student.save()
-    #         sponsor.save()
-    #     else:
-    #         raise ValidationError(f"{instance.money} summani Qosha olmaysiz")
-    #
-    # @receiver(pre_delete, sender=StudentSponsor)
-    # def delete_budget(self, sender, instance, **kwargs):
-    #     student = StudentModel.objects.get(id=instance.student.id)
-    #     sponsor = SponsorModel.objects.get(id=instance.sponsor.id)
-    #
-    #     student.paid_money -= instance.money
-    #     sponsor.paid_money -= instance.money
-    #     sponsor.budget += instance.money
-    #
-    #     sponsor.save()
-    #     student.save()
+    def create_datas(self, request):
+        yesterday = datetime.datetime.today() - datetime.timedelta(days=1)
+        money_amount = SponsorModel.objects.filter(created_at=yesterday).count()
+        money_asked = StudentModel.objects.filter(created_at=yesterday).count()
+        MainDatas.objects.create(day=yesterday, number_st=money_asked, number_sp=money_amount)

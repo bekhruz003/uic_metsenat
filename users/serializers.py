@@ -42,7 +42,8 @@ class StudentSponsorSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = LinearGraph
 #         fields = '__all__'
-#         read_only_fields = ['number_sp', 'number_st', 'day']
+        # read_only_fields = ['number_sp', 'number_st', 'day']
+
 
 class MainDatasSerializer(serializers.ModelSerializer):
     class Meta:

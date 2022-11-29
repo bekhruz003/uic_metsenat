@@ -9,4 +9,5 @@ urlpatterns = [
     path('student/', StudentListView.as_view(), name='student'),
     path('student/<int:pk>/', StudentProfileView.as_view(), name='student'),
     path('student/paid/', PaidBudgetView.as_view(), name='student_paid'),
+    path('line/', MainDatasView.as_view(), name='line'),
 ]
